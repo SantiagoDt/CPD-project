@@ -1,0 +1,14 @@
+# Ignore IntelliJ IDEA and similar IDE folders and files
+**/.idea/
+**/*.iml
+
+# Ignore Maven build folders
+**/target/
+**/.mvn/
+mvnw
+mvnw.cmd
+
+# Common ignores
+*.log
+.DS_Store
+HELP.md
