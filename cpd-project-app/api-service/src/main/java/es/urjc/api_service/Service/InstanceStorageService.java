@@ -1,5 +1,6 @@
 package es.urjc.api_service.Service;
 
+import es.urjc.api_service.Dto.DataDTO;
 import es.urjc.api_service.Model.Disk;
 import es.urjc.api_service.Model.Instance;
 import es.urjc.api_service.Repository.DiskRepository;
@@ -35,6 +36,15 @@ public class InstanceStorageService {
 
     public void deleteById(Long id) {
         instanceRepositoy.deleteById(id);
+    }
+
+    public Instance buildInstancefromDTO(DataDTO dto) {
+        Instance instance = new Instance();
+        instance.setCores(dto.getCores());
+        instance.setName(dto.getName());
+        instance.setStatus(Instance.InstanceStatus.BUILDING_DISK);
+        instance.setMemory(dto.getMem_size());
+        return instance;
     }
 
     @PostConstruct
