@@ -1,5 +1,6 @@
 package es.urjc.api_service.Service;
 
+import es.urjc.api_service.Dto.DataDTO;
 import es.urjc.api_service.Model.Disk;
 import es.urjc.api_service.Repository.DiskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,13 @@ public class DiskStorageService {
 
     public Optional<Disk> findFirstByStatus(Disk.DiskStatus status) {
         return diskRepository.findFirstByStatus(status);
+    }
+
+    public Disk buildDiskfromDTO(DataDTO dto) {
+        Disk disk = new Disk();
+        disk.setSize(dto.getDisk_size());
+        disk.setType(dto.getDisk_type());
+        disk.setStatus(Disk.DiskStatus.UNASSIGNED);
+        return disk;
     }
 }
