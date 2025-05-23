@@ -1,7 +1,7 @@
 package es.urjc.disk_service.DTO;
 
 public class DiskRequestDTO  {
-    private long diskId;
+    private Long diskId;
     private int diskSize;
 
     private DiskType diskType;
@@ -24,7 +24,7 @@ public class DiskRequestDTO  {
         this.diskType = diskType;
     }
 
-    public long getDiskId() {
+    public Long getDiskId() {
         return diskId;
     }
 
