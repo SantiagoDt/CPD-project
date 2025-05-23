@@ -1,15 +1,17 @@
 package es.urjc.api_service.Dto;
 
+import es.urjc.api_service.Model.Disk.*;
+
 public class DiskStatusDTO {
 
     private Long diskId;
-    private String status;
+    private DiskStatus status;
     private int diskSize;
-    private String diskType;
+    private DiskType diskType;
 
     public DiskStatusDTO() {}
 
-    public DiskStatusDTO(Long diskId, String status, int diskSize, String diskType) {
+    public DiskStatusDTO(Long diskId, DiskStatus status, int diskSize, DiskType diskType) {
         this.diskId = diskId;
         this.status = status;
         this.diskSize = diskSize;
@@ -22,10 +24,10 @@ public class DiskStatusDTO {
     public void setDiskId(Long diskId) {
         this.diskId = diskId;
     }
-    public String getStatus() {
+    public DiskStatus getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(DiskStatus status) {
         this.status = status;
     }
     public int getDiskSize() {
@@ -34,10 +36,10 @@ public class DiskStatusDTO {
     public void setDiskSize(int diskSize) {
         this.diskSize = diskSize;
     }
-    public String getDiskType() {
+    public DiskType getDiskType() {
         return diskType;
     }
-    public void setDiskType(String diskType) {
+    public void setDiskType(DiskType diskType) {
         this.diskType = diskType;
     }
 

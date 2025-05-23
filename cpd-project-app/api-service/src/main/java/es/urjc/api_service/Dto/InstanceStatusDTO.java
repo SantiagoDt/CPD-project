@@ -1,13 +1,15 @@
 package es.urjc.api_service.Dto;
 
+import es.urjc.api_service.Model.Disk.DiskStatus;
+
 public class InstanceStatusDTO {
 
     private long instanceId;
-    private String status;
+    private DiskStatus status;
     private String ip;
 
     public InstanceStatusDTO() {}
-    public InstanceStatusDTO(long instanceId, String status, String ip) {
+    public InstanceStatusDTO(long instanceId,DiskStatus  status, String ip) {
         this.instanceId = instanceId;
         this.status = status;
         this.ip = ip;
@@ -19,10 +21,10 @@ public class InstanceStatusDTO {
     public void setInstanceId(long instanceId) {
         this.instanceId = instanceId;
     }
-    public String getStatus() {
+    public DiskStatus  getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(DiskStatus  status) {
         this.status = status;
     }
     public String getIp() {
