@@ -39,7 +39,7 @@ public class DiskStorageService {
         Disk disk = new Disk();
         disk.setSize(dto.getDisk_size());
         disk.setType(dto.getDisk_type());
-        disk.setStatus(Disk.DiskStatus.UNASSIGNED);
+        disk.setStatus(Disk.DiskStatus.UNKNOWN);
         return disk;
     }
 }
