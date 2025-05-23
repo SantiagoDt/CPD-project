@@ -16,7 +16,7 @@ public class Disk {
     private DiskStatus status;
 
     public enum DiskType { HDD, SSD }
-    public enum DiskStatus { REQUESTED, INITIALIZED, ASSIGNED, UNASSIGNED }
+    public enum DiskStatus { REQUESTED, INITIALIZED, ASSIGNED, UNASSIGNED, UNKNOWN }
 
     //Constructor
     public Disk() {}
