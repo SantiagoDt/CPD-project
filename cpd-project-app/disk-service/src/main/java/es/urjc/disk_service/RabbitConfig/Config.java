@@ -1,4 +1,4 @@
-package es.urjc.disk_service.Config;
+package es.urjc.disk_service.RabbitConfig;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitConfig {
+public class Config {
     public static final String DISK_REQUESTS_QUEUE = "disk-requests";
     public static final String DISK_STATUSES_QUEUE = "disk-statuses";
 
