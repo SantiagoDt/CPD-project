@@ -16,11 +16,10 @@ public class Instance {
     @Enumerated(EnumType.STRING)
     private InstanceStatus status;
 
-    @OneToOne
+    @OneToOne(mappedBy = "instance")
     private Disk disk;
 
-    public enum InstanceStatus
-    {
+    public enum InstanceStatus {
         BUILDING_DISK, STARTING, INITIALIZING, ASSIGNING_IP, RUNNING
     }
 
