@@ -15,6 +15,9 @@ public class Disk {
     @Enumerated(EnumType.STRING)
     private DiskStatus status;
 
+    @OneToOne
+    private Instance instance;
+
     public enum DiskType { HDD, SSD }
     public enum DiskStatus { REQUESTED, INITIALIZED, ASSIGNED, UNASSIGNED, UNKNOWN }
 
@@ -60,10 +63,24 @@ public class Disk {
         this.status = status;
     }
 
+    public Instance getInstance() {
+        return instance;
+    }
+
+    public void setInstance(Instance instance) {
+        this.instance = instance;
+    }
+
     //toString
     @Override
     public String toString() {
-        return "Disk{" + "id=" + id + ", size=" + size + ", type=" + type + ", status=" + status + "}";
+        return "Disk{" +
+                "id=" + id +
+                ", size=" + size +
+                ", type=" + type +
+                ", status=" + status +
+                ", instance=" + (instance != null ? instance.getId() : null) +
+                "}";
     }
 
 }
