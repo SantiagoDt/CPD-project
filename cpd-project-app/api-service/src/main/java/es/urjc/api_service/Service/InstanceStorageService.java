@@ -52,27 +52,22 @@ public class InstanceStorageService {
         Disk disk2 = new Disk(250, Disk.DiskType.HDD, Disk.DiskStatus.ASSIGNED);
         Disk disk3 = new Disk(500, Disk.DiskType.SSD, Disk.DiskStatus.ASSIGNED);
 
-        // Primero guarda los discos para tener IDs válidos
         disk1 = diskRepository.save(disk1);
         disk2 = diskRepository.save(disk2);
         disk3 = diskRepository.save(disk3);
 
-        // Luego crea las instancias asociando el disco
         Instance instance1 = new Instance("server", 4, 2, "192.0.0.1", Instance.InstanceStatus.ASSIGNING_IP, disk1);
         Instance instance2 = new Instance("webapp", 8, 4, "192.0.0.2", Instance.InstanceStatus.RUNNING, disk2);
         Instance instance3 = new Instance("database", 16, 8, "192.0.0.3", Instance.InstanceStatus.STARTING, disk3);
 
-        // Asocia la instancia al disco también (relación bidireccional)
         disk1.setInstance(instance1);
         disk2.setInstance(instance2);
         disk3.setInstance(instance3);
 
-        // Guarda las instancias
         instanceRepositoy.save(instance1);
         instanceRepositoy.save(instance2);
         instanceRepositoy.save(instance3);
 
-        // Vuelve a guardar los discos para reflejar la relación inversa
         diskRepository.save(disk1);
         diskRepository.save(disk2);
         diskRepository.save(disk3);
