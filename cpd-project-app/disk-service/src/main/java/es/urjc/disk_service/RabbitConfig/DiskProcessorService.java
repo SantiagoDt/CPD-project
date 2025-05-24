@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class DiskCreateListener {
+public class DiskProcessorService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
