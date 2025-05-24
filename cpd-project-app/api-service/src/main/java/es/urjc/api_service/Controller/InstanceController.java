@@ -46,34 +46,45 @@ public class InstanceController {
         Optional<Instance> instanceOpt = instanceService.findById(id);
         instanceOpt.ifPresent(instance -> {
             Disk disk = instance.getDisk();
-            disk.setStatus(Disk.DiskStatus.UNASSIGNED);
-            diskService.save(disk);
-            instanceService.deleteById(id);
+
+           if (disk != null) {
+               disk.setInstance(null);
+               disk.setStatus(Disk.DiskStatus.UNASSIGNED);
+               diskService.save(disk);
+           }
+           instance.setDisk(null);
+           instanceService.deleteById(id);
         });
         return ResponseEntity.of(instanceOpt);
     }
 
     @PostMapping("/")
     public ResponseEntity<Instance> addInstance(@RequestBody DataDTO dto) {
-
         Optional<Disk> unasignedDisks = diskService.findFirstByStatus(Disk.DiskStatus.UNASSIGNED);
         Disk disk;
         DiskRequestDTO diskRequest;
+
         if (unasignedDisks.isPresent()) {
             disk = unasignedDisks.get();
-             diskRequest = new DiskRequestDTO(disk.getId(),disk.getSize(),disk.getType());
+            diskRequest = new DiskRequestDTO(disk.getId(), disk.getSize(), disk.getType());
         } else {
-            //Create a new disk ( As DTO doesnt exists,disk parameters aren't avaivable
             disk = diskService.buildDiskfromDTO(dto);
-            diskRequest = new DiskRequestDTO(disk.getId(),disk.getSize(),disk.getType());
+            diskService.save(disk);
+            diskRequest = new DiskRequestDTO(disk.getId(), disk.getSize(), disk.getType());
+
         }
-        diskService.save(disk);
+
         Instance instance = instanceService.buildInstancefromDTO(dto);
         instance.setDisk(disk);
-        instanceService.save(instance);
+
+        disk.setInstance(instance);
+        Instance savedInstance = instanceService.save(instance);
+        diskService.save(disk);
         messageService.sendDiskRequest(diskRequest);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(instance.getId()).toUri();
-        return ResponseEntity.created(location).body(instance);
+
+        // Usamos savedInstance (no instance) para construir la URI
+        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedInstance.getId()).toUri();
+        return ResponseEntity.created(location).body(savedInstance);
     }
 
 
