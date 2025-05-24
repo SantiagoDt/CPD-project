@@ -1,6 +1,5 @@
 package es.urjc.instance_service.RabbitConfig;
 
-import es.urjc.instance_service.RabbitConfig.Config;
 import es.urjc.instance_service.DTO.InstanceRequestDTO;
 import es.urjc.instance_service.DTO.InstanceStatusDTO;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,7 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class InstanceCreateListener {
+public class InstanceProcessorService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
