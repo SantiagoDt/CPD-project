@@ -56,9 +56,12 @@ public class InstanceStorageService {
         disk2 = diskRepository.save(disk2);
         disk3 = diskRepository.save(disk3);
 
-        Instance instance1 = new Instance("server", 4, 2, "192.0.0.1", Instance.InstanceStatus.ASSIGNING_IP, disk1);
-        Instance instance2 = new Instance("webapp", 8, 4, "192.0.0.2", Instance.InstanceStatus.RUNNING, disk2);
-        Instance instance3 = new Instance("database", 16, 8, "192.0.0.3", Instance.InstanceStatus.STARTING, disk3);
+        Instance instance1 = new Instance("IronFortress", 4, 2, "192.168.1.2", Instance.InstanceStatus.ASSIGNING_IP,
+                disk1);
+        Instance instance2 = new Instance("NimbusNode", 8, 4, "192.168.1.3", Instance.InstanceStatus.ASSIGNING_IP,
+                disk2);
+        Instance instance3 = new Instance("DataKraken", 16, 8, "192.168.1.4", Instance.InstanceStatus.ASSIGNING_IP,
+                disk3);
 
         disk1.setInstance(instance1);
         disk2.setInstance(instance2);
