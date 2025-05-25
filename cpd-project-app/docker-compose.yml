@@ -1,0 +1,151 @@
+services:
+  api1:
+    image: santiagodt/api-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: no-init
+      SPRING_APPLICATION_NAME: api-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-persist:3306/cpd_bbdd
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SERVER_PORT: 8080
+    expose:
+      - "8080"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      mysql-persist:
+        condition: service_healthy
+      disk-service:
+        condition: service_started
+      instance-service:
+        condition: service_started
+
+  api2:
+    image: santiagodt/api-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: no-init
+      SPRING_APPLICATION_NAME: api-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-persist:3306/cpd_bbdd
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SERVER_PORT: 8080
+    expose:
+      - "8080"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      mysql-persist:
+        condition: service_healthy
+      api1:
+        condition: service_started
+      disk-service:
+        condition: service_started
+      instance-service:
+        condition: service_started
+
+  api3:
+    image: santiagodt/api-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: no-init
+      SPRING_APPLICATION_NAME: api-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-persist:3306/cpd_bbdd
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SERVER_PORT: 8080
+    expose:
+      - "8080"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      mysql-persist:
+        condition: service_healthy
+      api1:
+        condition: service_started
+      disk-service:
+        condition: service_started
+      instance-service:
+        condition: service_started
+
+  instance-service:
+    image: santiagodt/instance-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_APPLICATION_NAME: instance-service
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SERVER_PORT: 8082
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      mysql-persist:
+        condition: service_healthy
+
+  disk-service:
+    image: santiagodt/disk-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_APPLICATION_NAME: disk-service
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SERVER_PORT: 8081
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      mysql-persist:
+        condition: service_healthy
+
+  mysql-persist:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: cpd_bbdd
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  rabbit:
+    image: rabbitmq:4.0-management
+    ports:
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  haproxy:
+    image: haproxy:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - api1
+      - api2
+      - api3
+
+volumes:
+  mysql-data:
