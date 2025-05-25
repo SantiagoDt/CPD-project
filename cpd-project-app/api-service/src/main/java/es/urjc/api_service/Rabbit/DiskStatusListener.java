@@ -9,11 +9,15 @@ import es.urjc.api_service.Service.MessageProducerService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 @Service
 public class DiskStatusListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(DiskStatusListener.class);
 
     @Autowired
     DiskStorageService diskService;
@@ -35,7 +39,7 @@ public class DiskStatusListener {
                 messageService.sendInstanceRequest(instanceRequestDTO);
             }
         } else {
-            System.err.println("Disk with ID " + statusDTO.getDiskId() + " not found.");
+            logger.warn("Disk with ID {} not found, skipping status update", statusDTO.getDiskId());
         }
 
     }
