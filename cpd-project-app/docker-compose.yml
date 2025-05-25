@@ -2,6 +2,7 @@ services:
   api1:
     image: santiagodt/api-service:0.0.1-SNAPSHOT
     environment:
+
       SPRING_PROFILES_ACTIVE: ${API1_SPRING_PROFILES_ACTIVE:-init}
       SPRING_APPLICATION_NAME: api-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-persist:3306/cpd_bbdd
