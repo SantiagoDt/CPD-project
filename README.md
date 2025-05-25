@@ -87,6 +87,12 @@ docker-compose down -v
 
 ### Build and Push Docker Images to Docker Hub
 
+If you don't have Maven installed globally, run the following in each service folder first:
+```bash
+mvn wrapper:wrapper
+```
+And then:
+
 ```bash
 # From the project root directory
 cd cpd-project-app
