@@ -6,6 +6,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -15,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class InstanceProcessorService {
 
+    private static final Logger logger = LoggerFactory.getLogger(InstanceProcessorService.class);
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
@@ -22,7 +26,7 @@ public class InstanceProcessorService {
 
     @RabbitListener(queues = Config.INSTANCE_REQUESTS_QUEUE)
     public void processInstanceRequest(InstanceRequestDTO instanceRequest) {
-        System.out.println("Processing instance request: " + instanceRequest);
+        logger.info("Processing instance request: {}", instanceRequest);
 
         sendInstanceStatus(instanceRequest, InstanceStatusDTO.InstanceStatus.STARTING);
 
@@ -61,7 +65,7 @@ public class InstanceProcessorService {
                 ip
         );
         rabbitTemplate.convertAndSend(Config.INSTANCE_STATUSES_QUEUE, statusUpdate);
-        System.out.println("Sent instance status update: " + statusUpdate);
+        logger.info("Sent instance status update: {}", statusUpdate);
     }
 
     private String generateRandomIP() {
