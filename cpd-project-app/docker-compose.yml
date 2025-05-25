@@ -2,12 +2,13 @@ services:
   api1:
     image: santiagodt/api-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: no-init
+
+      SPRING_PROFILES_ACTIVE: ${API1_SPRING_PROFILES_ACTIVE:-init}
       SPRING_APPLICATION_NAME: api-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-persist:3306/cpd_bbdd
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${API1_SPRING_JPA_HIBERNATE_DDL_AUTO:-update}
       SPRING_RABBITMQ_HOST: rabbit
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
@@ -127,8 +128,6 @@ services:
 
   rabbit:
     image: rabbitmq:4.0-management
-    ports:
-      - "15672:15672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "ping"]
       interval: 10s
