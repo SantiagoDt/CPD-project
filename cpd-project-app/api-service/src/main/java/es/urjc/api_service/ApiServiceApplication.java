@@ -15,11 +15,6 @@ public class ApiServiceApplication {
 	}
 
 	@Bean
-	public Queue myQueue() {
-		return new Queue("disk-requests", false);
-	}
-
-	@Bean
 	public MessageConverter messageConverter() {
 		return new Jackson2JsonMessageConverter();
 	}
