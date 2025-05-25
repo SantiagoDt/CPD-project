@@ -1,5 +1,7 @@
 package es.urjc.api_service.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class Disk {
     private DiskStatus status;
 
     @OneToOne
+    @JsonIgnore
     private Instance instance;
 
     public enum DiskType { HDD, SSD }
