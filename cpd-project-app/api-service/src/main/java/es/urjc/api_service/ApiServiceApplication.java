@@ -14,10 +14,6 @@ public class ApiServiceApplication {
 		SpringApplication.run(ApiServiceApplication.class, args);
 	}
 
-	@Bean
-	public Queue myQueue() {
-		return new Queue("disk-requests", false);
-	}
 
 	@Bean
 	public MessageConverter messageConverter() {

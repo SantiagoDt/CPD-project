@@ -64,7 +64,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>santiago/instance-service:${project.version}</name>
+						<name>santiagodt/instance-service:${project.version}</name>
 					</image>
 				</configuration>
 			</plugin>
