@@ -35,7 +35,7 @@ public class DiskStatusListener {
                 messageService.sendInstanceRequest(instanceRequestDTO);
             }
         } else {
-            System.err.println("No se encontró el disco con ID: " + statusDTO.getDiskId());
+            System.err.println("Disk with ID " + statusDTO.getDiskId() + " not found.");
         }
 
     }
