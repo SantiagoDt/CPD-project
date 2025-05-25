@@ -4,6 +4,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,12 +14,14 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class DiskProcessorService {
 
+    private static final Logger logger = LoggerFactory.getLogger(DiskProcessorService.class);
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = Config.DISK_REQUESTS_QUEUE)
     public void processDiskRequest(DiskRequestDTO diskRequest) {
-        System.out.println("Processing disk request: " + diskRequest);
+        logger.info("Processing disk request: {}", diskRequest);
 
         sendDiskStatus(diskRequest, DiskStatusDTO.DiskStatus.REQUESTED);
 
@@ -41,6 +45,6 @@ public class DiskProcessorService {
         );
 
         rabbitTemplate.convertAndSend(Config.DISK_STATUSES_QUEUE, statusUpdate);
-        System.out.println("Sent disk status update: " + statusUpdate);
+        logger.info("Sent disk status update: {}", statusUpdate);
     }
 }
